@@ -25,14 +25,11 @@ class Player
 
   def has_T?
     cards.each { |x| x =~ /^T/ }
-<<<<<<< HEAD
   end
 
   def prepare_for_new_game
     @cards.clear
     @points = 0
-=======
->>>>>>> 1b07060c0c8f6f932830f1b70a8c284f2973354a
   end
 
   def prepare_for_new_game
