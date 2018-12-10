@@ -8,15 +8,15 @@ class Player
     @points = 0
   end
 
-  def take_card(card)
-    index = card.give_a_card
-    @cards << card.cards[index]
-    @points += card.deck[@cards.last]
-    card.delete_card(index)
+  def take_card(deck, card)
+    @cards << deck.give_a_card
+    @points += card.nominal[@cards.last]
+    deck.delete_card
   end
 
-  def make_a_contribution
+  def make_a_contribution(bank)
     @money -= 10 if @money >= 10
+    bank.current_balance += 10
   end
 
   def has_2_cards?

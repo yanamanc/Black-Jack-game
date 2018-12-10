@@ -1,82 +1,52 @@
 class Game
 
-  def create_players(name)
-    user = Player.new(name)
-    diller = Player.new('Diller')
-    interface = Interface.new
-    start_game(user, diller, interface)
-  end
-
-  def menu(c, user, diller, interface)
-    loop do
-      interface.show_current_status(user, diller)
-      if check_cards_amount(user, diller, interface)
-        break 
-      else
-      interface.show_menu(user)
-    end
-      choose = gets.chomp.to_i
+  def menu(choose, deck, c, user, dealer, bank)
       case choose
       when 1
-        diller_step(diller, c)
+        diller_step(dealer, deck, c)
       when 2
-        user.take_card(c) if user.has_2_cards?
-        diller_step(diller, c)
+        user.take_card(deck, c) if user.has_2_cards?
+        dealer.diller_step(deck, c)
       when 3
-        who_is_winner(user, diller, interface)
-        break
+        who_is_winner(user, dealer, bank)
       end
-    end
   end
 
-  private
-
-  def start_game(user, diller, interface)
-    c = Card.new
-    user.make_a_contribution
-    diller.make_a_contribution
+  def start_game(bank, c, deck, user, dealer)
+    user.make_a_contribution(bank)
+    dealer.make_a_contribution(bank)
     2.times do
-      user.take_card(c)
-      diller.take_card(c)
+      user.take_card(deck, c)
+      dealer.take_card(deck, c)
     end
-    menu(c, user, diller, interface)
   end
 
-  def check_cards_amount(user, diller, interface)
-    who_is_winner(user, diller, interface) if !user.has_2_cards? && !diller.has_2_cards?
-    return true if !user.has_2_cards? && !diller.has_2_cards?
+  def check_cards_amount(user, dealer, bank)
+    who_is_winner(user, dealer, bank) if !user.has_2_cards? && !dealer.has_2_cards?
+    !user.has_2_cards? && !dealer.has_2_cards?
   end
 
-  def diller_step(diller, c)
-    diller.take_card(c) if diller.points <= 17 && diller.has_2_cards?
-  end
-
-  def who_is_winner(user, diller, interface)
+  def who_is_winner(user, dealer, bank)
+    puts "#{dealer.name} cards: "
+    puts dealer.cards
     user.points -= 10 if user.points > 21 && user.has_T?
-    diller.points -= 10 if diller.points > 21 && diller.has_T?
-    if user.points > diller.points && user.points <= 21
+    dealer.points -= 10 if dealer.points > 21 && dealer.has_T?
+    if user.points > dealer.points && user.points <= 21
       puts "#{user.name} is winner!!!"
-      user.money += 20
-    elsif user.points < diller.points && diller.points <= 21
-      puts "#{diller.name} is winner!!!"
-      diller.money += 20
+      user.money += bank.current_balance
+    elsif user.points < dealer.points && dealer.points <= 21
+      puts "#{dealer.name} is winner!!!"
+      dealer.money += bank.current_balance
     else
       puts 'IT IS A DROW'
-      diller.money += 10
-      user.money += 10
+      dealer.money += bank.current_balance / 2
+      user.money += bank.current_balance / 2
     end
-    continue_game(user, diller, interface)
   end
 
-  def continue_game(user, diller, interface)
-    interface.continue_game_menu
-    choose = gets.chomp.to_i
-    if choose == 1
-      user.prepare_for_new_game
-      diller.prepare_for_new_game
-      start_game(user, diller, interface) if user.money >= 10 && diller.money >= 10
-    else
-      interface.game_over
-    end
+  def continue_game(bank, c, deck, user, dealer)
+    user.prepare_for_new_game
+    dealer.prepare_for_new_game
+    start_game(bank, c, deck, user, dealer) if user.money >= 10 && dealer.money >= 10
   end
 end
