@@ -8,17 +8,12 @@ class Deck
   end
 
   def set_deck
-    ranks = {
-      "2" => 2,"3" => 3, "4" => 4, "5" => 5, "6" => 6,
-      "7" => 7, "8" => 8, "9" => 9, "10" => 10,
-      "V" => 10, "D" => 10, "K" => 10, "T" => 11
-    }
-    Card::SUITS.each do |x|
-    ranks.each do |k, v|
-      card = k + " " + x
-      c = Card.new(card)
-      @cards << c
-      @nominal[card] = v
+    Card::SUITS.each do |suit|
+      Card::RANKS.each do |rank, nominal|
+        card = rank + " " + suit
+        c = Card.new(card)
+        @cards << c
+        @nominal[card] = nominal
       end
     end
   end

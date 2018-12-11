@@ -1,5 +1,18 @@
 class Game
 
+  def create_data
+    puts 'What is your name?'
+    name = gets.chomp.capitalize
+    deck = Deck.new
+    user = Player.new(name)
+    dealer = Dealer.new('Diller')
+    interface = Interface.new
+    bank = Bank.new
+    deck.mix_deck
+    start_game(bank, deck, user, dealer)
+    interface.show_menu(self, deck, user, dealer, bank)
+  end
+
   def start_game(bank, deck, user, dealer)
     user.make_a_contribution(bank)
     dealer.make_a_contribution(bank)

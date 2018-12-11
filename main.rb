@@ -6,5 +6,5 @@ require_relative "dealer .rb"
 require_relative "interface.rb"
 require_relative "game.rb"
 
-interface = Interface.new
-interface.start_game
+game = Game.new
+game.create_data
