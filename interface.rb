@@ -17,12 +17,26 @@ class Interface
   def show_menu(game, deck, user, dealer, bank)
     loop do
       show_current_status(user, dealer)
-      break if game.check_cards_amount(user, dealer, bank)
+      if show_winner(game, user, dealer, bank)
+        puts "#{dealer.name} cards: "
+        puts dealer.cards
+        break
+      end
       puts '1 - Skip a turn'
       puts '2 - Add card' if user.has_2_cards?
       puts '3 - Open cards'
       choose = gets.chomp.to_i
-      game.menu(choose, deck, user, dealer, bank)
+      case choose
+        when 1
+          diller_step(dealer, deck)
+        when 2
+          user.take_card(deck) if user.has_2_cards?
+          dealer.diller_step(deck)
+        when 3
+          puts "#{dealer.name} cards: "
+          puts dealer.cards
+          show_winner(game, user, dealer, bank)
+      end
       break if choose == 3
     end
     continue_game_menu(bank, game, deck, user, dealer)
@@ -38,6 +52,14 @@ class Interface
     puts "_____MC #{dealer.name}_____"
     puts "..... _██_\n....§(•,• )§\n....../▓▓\ \n.......╝╚ ♥ "
     puts '*' * dealer.cards.size
+  end
+  
+  def show_winner(game, user, dealer, bank)
+    winner = { 1 => "#{user.name} is winner!!!", 2 => "#{dealer.name} is winner!!!", 3 => "IT IS A DROW" }
+    if game.check_cards_amount(user, dealer, bank)
+      puts "#{winner[game.who_is_winner(user, dealer, bank)]}"
+    end
+    game.check_cards_amount(user, dealer, bank)
   end
 
   def continue_game_menu(bank, game, deck, user, dealer)

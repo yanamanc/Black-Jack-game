@@ -1,8 +1,9 @@
 class Deck
-  attr_accessor :cards
+  attr_accessor :cards, :nominal
 
   def initialize
     @cards = []
+    @nominal = {}
     set_deck
   end
 
@@ -12,11 +13,12 @@ class Deck
       "7" => 7, "8" => 8, "9" => 9, "10" => 10,
       "V" => 10, "D" => 10, "K" => 10, "T" => 11
     }
-    ["✣", "❤", "♦", "♠"].each do |x|
+    Card::SUITS.each do |x|
     ranks.each do |k, v|
       card = k + " " + x
-      c = Card.new(card, v)
-      @cards << card
+      c = Card.new(card)
+      @cards << c
+      @nominal[card] = v
       end
     end
   end
@@ -30,7 +32,7 @@ class Deck
   end
 
   def give_a_card
-    cards[0]
+    cards[0].card
   end
 
 end

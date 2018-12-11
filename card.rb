@@ -1,9 +1,8 @@
 class Card
-  attr_accessor :nominal
-  $nominal = {}
-  def initialize(card, v)
+  attr_accessor :card
+  SUITS = ["✣", "❤", "♦", "♠"]
+  def initialize(card)
     @card = card
-    $nominal[@card] = v
   end
 
 end

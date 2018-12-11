@@ -1,5 +1,6 @@
 class Player
   attr_accessor :cards, :points, :name, :money
+  POINTS_17 = 17
 
   def initialize(name)
     @name = name
@@ -10,7 +11,7 @@ class Player
 
   def take_card(deck)
     @cards << deck.give_a_card
-    @points += $nominal[@cards.last]
+    @points += deck.nominal[@cards.last]
     deck.delete_card
   end
 
