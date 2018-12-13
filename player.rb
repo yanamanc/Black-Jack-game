@@ -10,8 +10,9 @@ class Player
   end
 
   def take_card(deck)
-    @cards << deck.give_a_card
-    @points += deck.nominal[@cards.last]
+    card = deck.give_a_card
+    @cards << card.suit + ' ' + card.rank
+    @points += card.nominal
     deck.delete_card
   end
 

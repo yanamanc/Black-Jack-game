@@ -1,19 +1,16 @@
 class Deck
-  attr_accessor :cards, :nominal
+  attr_accessor :cards
 
   def initialize
     @cards = []
-    @nominal = {}
     set_deck
   end
 
   def set_deck
     Card::SUITS.each do |suit|
       Card::RANKS.each do |rank, nominal|
-        card = rank + " " + suit
-        c = Card.new(card)
-        @cards << c
-        @nominal[card] = nominal
+        card = Card.new(suit, rank, nominal)
+        @cards << card
       end
     end
   end
@@ -27,7 +24,7 @@ class Deck
   end
 
   def give_a_card
-    cards[0].card
+    cards[0]
   end
 
 end

@@ -12,10 +12,10 @@ class Interface
       choose = gets.chomp.to_i
       case choose
         when 1
-          diller_step(dealer, deck)
+          dealer.dealer_step(deck)
         when 2
           user.take_card(deck) if user.has_2_cards?
-          dealer.diller_step(deck)
+          dealer.dealer_step(deck)
         when 3
           show_winner(game, user, dealer, bank, 1)
           break
