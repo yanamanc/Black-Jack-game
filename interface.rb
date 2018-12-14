@@ -39,8 +39,7 @@ class Interface
   def show_winner(game, user, dealer, bank, answer)
     winner = { 1 => "#{user.name} is winner!!!", 2 => "#{dealer.name} is winner!!!", 3 => "IT IS A DROW" }
     if game.check_cards_amount(user, dealer, bank) || answer == 1
-      puts "#{dealer.name} cards: "
-      puts dealer.cards
+      puts "#{dealer.name} cards: #{dealer.cards}"
       puts "#{winner[game.who_is_winner(user, dealer, bank)]}"
     end
     game.check_cards_amount(user, dealer, bank)

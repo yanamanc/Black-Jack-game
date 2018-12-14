@@ -1,6 +1,6 @@
 class Player
   attr_accessor :cards, :points, :name, :money
-  POINTS_17 = 17
+  POINTS = 17
 
   def initialize(name)
     @name = name
@@ -11,9 +11,10 @@ class Player
 
   def take_card(deck)
     card = deck.give_a_card
-    @cards << card.suit + ' ' + card.rank
+    @cards << card.rank + ' ' + card.suit
     @points += card.nominal
     deck.delete_card
+    @points -= 10 if @points > 21 && has_T?
   end
 
   def make_a_contribution(bank)
@@ -26,12 +27,7 @@ class Player
   end
 
   def has_T?
-    cards.each { |x| x =~ /^T/ }
-  end
-
-  def prepare_for_new_game
-    @cards.clear
-    @points = 0
+    @cards.each { |card| return true if card =~ /^T/ }
   end
 
   def prepare_for_new_game

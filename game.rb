@@ -14,6 +14,7 @@ class Game
   end
 
   def start_game(bank, deck, user, dealer)
+    bank.balance = 0
     user.make_a_contribution(bank)
     dealer.make_a_contribution(bank)
     2.times do
@@ -27,8 +28,6 @@ class Game
   end
 
   def who_is_winner(user, dealer, bank)
-    user.points -= 10 if user.points > 21 && user.has_T?
-    dealer.points -= 10 if dealer.points > 21 && dealer.has_T?
     if user_win(user, dealer)
       user.money += bank.balance
       1

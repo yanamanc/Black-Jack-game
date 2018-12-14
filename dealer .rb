@@ -1,5 +1,10 @@
 class Dealer < Player
   def dealer_step(deck)
-    take_card(deck) if @points <= POINTS_17 && has_2_cards?
+    if @points <= POINTS && has_2_cards?
+      take_card(deck)
+      puts "#{self.name} took the card"
+    else
+      puts "#{self.name} skip the turn"
+    end
   end
 end
