@@ -1,6 +1,7 @@
 class Interface
 
   def show_menu(game, deck, user, dealer, bank)
+      dealler_step = { 1 => "#{dealer.name} took the card", 2 => "#{dealer.name} skip the turn" }
     loop do
       show_current_status(user, dealer)
       if show_winner(game, user, dealer, bank, 0)
@@ -12,10 +13,10 @@ class Interface
       choose = gets.chomp.to_i
       case choose
         when 1
-          dealer.dealer_step(deck)
+          puts dealler_step[dealer.dealer_step(deck)]
         when 2
           user.take_card(deck) if user.has_2_cards?
-          dealer.dealer_step(deck)
+          puts dealler_step[dealer.dealer_step(deck)]
         when 3
           show_winner(game, user, dealer, bank, 1)
           break

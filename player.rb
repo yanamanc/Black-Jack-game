@@ -27,7 +27,7 @@ class Player
   end
 
   def has_T?
-    @cards.each { |card| return true if card =~ /^T/ }
+    @cards.any? { |card| card =~ /^T/ }
   end
 
   def prepare_for_new_game
