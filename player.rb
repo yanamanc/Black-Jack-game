@@ -13,7 +13,6 @@ class Player
     card = deck.give_a_card
     @cards << card.rank + ' ' + card.suit
     @points += card.nominal
-    deck.delete_card
     @points -= 10 if @points > 21 && has_T?
   end
 
